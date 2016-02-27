@@ -25,7 +25,7 @@
   "scripts": {
     "test": "npm run lint && npm run check && npm run testonly",
     "dev": "npm run download && babel-node src/cloud/main.js",
-    "start": "npm run download && node lib/cloud/main.js",
+    "start": "echo $PORT && npm run download && node lib/cloud/main.js",
     "deploy": "npm run build",
     "watch": "babel scripts/watch.js | node",
     "testonly": "mocha $npm_package_options_mocha",
