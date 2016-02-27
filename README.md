@@ -1,7 +1,7 @@
 An API of Ice and Fire GraphQL Wrapper
 =====================
 
-A wrapper around [Game of Thrones API](http://anapioficeandfire.com) built using GraphQL.
+A wrapper around the [Game of Thrones API](http://anapioficeandfire.com) built using GraphQL.
 
 This implementation is heavily inspired (read copious amounts of copy and paste)by Facebook's own wrapper around [SWAPI](http://swapi.co),
 which can be found on the [swapi-graphql](https://github.com/graphql/swapi-graphql) Github page
@@ -15,6 +15,9 @@ Uses:
 
 
 A working demo is available at [https://aqueous-citadel-58469.herokuapp.com](https://aqueous-citadel-58469.herokuapp.com)
+Please be patient with the above link. Heroku puts dynos to sleep if inactive for 30 minutes. The server should be responsive within 5 seconds at most on initial visit.
+
+Please report any issues you come across.
 
 ## Getting Started
 
