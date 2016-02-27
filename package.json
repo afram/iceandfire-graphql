@@ -24,8 +24,7 @@
   },
   "scripts": {
     "test": "npm run lint && npm run check && npm run testonly",
-    "dev": "npm run download && babel-node src/cloud/main.js",
-    "start": "echo $PORT && npm run download && node lib/cloud/main.js",
+    "start": "npm run download && babel-node src/cloud/main.js",
     "deploy": "npm run build",
     "watch": "babel scripts/watch.js | node",
     "testonly": "mocha $npm_package_options_mocha",
@@ -35,11 +34,13 @@
     "coveralls": "babel-node node_modules/.bin/isparta cover --root src --report lcovonly node_modules/.bin/_mocha -- $npm_package_options_mocha && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "build": "npm run download && npm run build-cloud && npm run build-config && npm run build-public",
     "download": "if [ ! -f src/api/cachedData/cache.js ]; then echo 'Downloading cache...' && node src/api/cachedData/downloadCache.js > src/api/cachedData/cache.js && echo 'Cached!'; fi;",
-    "build-cloud": "mkdir -p lib/cloud && browserify -p ./scripts/parseify.js node_modules/babel/polyfill src/cloud/main.js > lib/cloud/main.js",
+    "build-cloud": "mkdir -p lib/cloud && browserify node_modules/babel/polyfill src/cloud/main.js > lib/cloud/main.js",
     "build-config": "mkdir -p lib/config && cp src/config/* lib/config/",
     "build-public": "mkdir -p lib/public && cp src/public/* lib/public/"
   },
   "dependencies": {
+    "babel": "^5.8.3",
+    "babel-core": "^5.8.3",
     "babel-runtime": "5.8.34",
     "dataloader": "1.0.0",
     "express": "4.13.3",
@@ -51,8 +52,6 @@
     "react": "0.14.3"
   },
   "devDependencies": {
-    "babel": "^5.8.3",
-    "babel-core": "^5.8.3",
     "babel-eslint": "^4.0.5",
     "babelify": "^6.1.1",
     "browserify": "^11.0.0",
