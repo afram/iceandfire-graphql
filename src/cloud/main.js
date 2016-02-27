@@ -1,3 +1,4 @@
+import 'newrelic';
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
 import gotSchema from '../schema';

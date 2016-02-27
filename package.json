@@ -49,6 +49,7 @@
     "graphql-relay": "0.3.5",
     "isomorphic-fetch": "2.2.0",
     "lodash.omit": "^4.1.0",
+    "newrelic": "^1.25.4",
     "react": "0.14.3"
   },
   "devDependencies": {
