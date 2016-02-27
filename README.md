@@ -14,6 +14,8 @@ Uses:
 * [GraphiQL](https://github.com/graphql/graphiql) - for easy exploration of this GraphQL server.
 
 
+A working demo is available at [https://aqueous-citadel-58469.herokuapp.com](https://aqueous-citadel-58469.herokuapp.com)
+
 ## Getting Started
 
 Install dependencies with
