@@ -1,0 +1,10 @@
+{
+  __type(name: "Character") {
+    name 
+    fields {
+      name 
+      description
+      type { name }
+    }
+  }
+}

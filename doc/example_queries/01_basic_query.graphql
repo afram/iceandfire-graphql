@@ -1,0 +1,5 @@
+{
+  character(characterID: 4) {
+    name
+  }
+}

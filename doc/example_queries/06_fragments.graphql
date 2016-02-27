@@ -1,0 +1,24 @@
+{
+  allCharacters(first: 20) {
+    edges {
+      node {
+        id
+        name
+        aliases
+        culture
+        childrenConnection {
+          edges {
+            node {
+              ...characterFragment
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment characterFragment on Character {
+  name
+  spouse { name }
+}

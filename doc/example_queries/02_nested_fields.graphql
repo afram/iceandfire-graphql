@@ -1,0 +1,9 @@
+{
+  character(characterID: 16) {
+    name
+    titles
+    spouse {
+      name
+    }
+  }
+}

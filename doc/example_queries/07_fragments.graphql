@@ -1,0 +1,20 @@
+{
+  allHouses(first: 20) {
+    edges {
+      node {
+        ...houseFragment
+      }
+    }
+  }
+}
+
+fragment houseFragment on House {
+  id
+  name
+  ancestralWeapons
+  currentLord { ...characterFragment }
+}
+fragment characterFragment on Character {
+  name
+  spouse { name }
+}

@@ -1,0 +1,23 @@
+{
+  allCharacters(first: 7) {
+    edges {
+      node {
+        id
+        name
+        aliases
+        titles
+        culture
+        allegianceConnection {
+          edges {
+            node {
+              name
+              currentLord {
+                name
+              }               
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  character(characterID: 16) {
+    name
+    titles
+    spouse {
+      name
+    }
+    allegianceConnection {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+}
