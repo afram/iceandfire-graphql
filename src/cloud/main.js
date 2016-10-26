@@ -1,10 +1,17 @@
-import 'newrelic';
+// import 'newrelic';
 import express from 'express';
+import cors from 'cors';
 import graphqlHTTP from 'express-graphql';
 import gotSchema from '../schema';
 
-
 const app = express();
+app.use(cors({
+  origin: (origin, callback) => {
+    console.log(origin)
+    const whitelist = /\.now\.sh\//.test(origin) || /localhost/.test(origin)
+    callback(whitelist ? null : 'Bad Request', whitelist)
+  }
+}));
 app.set('port', (process.env.PORT || 5000));
 
 // Requests to /graphql redirect to /
