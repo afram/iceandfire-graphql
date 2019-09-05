@@ -26,7 +26,7 @@
     "react": "global:React"
   },
   "scripts": {
-    "test": "npm run lint && npm run check && npm run testonly",
+    "test": "npm run lint && npm run testonly",
     "start": "npm run download && babel-node src/cloud/main.js",
     "deploy": "npm run build",
     "watch": "babel scripts/watch.js | node",
