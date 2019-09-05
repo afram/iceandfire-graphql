@@ -27,7 +27,7 @@
     "react": "global:React"
   },
   "engines": {
-    "node": "10.x"
+    "node": ">=10.x"
   },
   "scripts": {
     "test": "npm run lint && npm run testonly",
