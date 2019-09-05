@@ -1,0 +1,15 @@
+{
+  "builds": [{ "src": "lib/cloud/main.js", "use": "@now/node-server" }],
+  "routes": [
+    {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
+      },
+      "src": "/(.*)",
+      "methods": ["GET", "POST"],
+      "dest": "/lib/cloud/main.js"
+    }
+  ]
+}

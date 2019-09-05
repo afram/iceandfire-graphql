@@ -5,6 +5,8 @@
  * This switches what abstraction it uses to fetch between isomorphic-fetch
  * and the Parse HTTP library so it can be used either locally or in cloud code.
  */
+import fetch from 'isomorphic-fetch';
+
 export async function getFromRemoteUrl(url) {
   try {
     const text = await getTextFromFetch(url);
@@ -18,7 +20,6 @@ export async function getFromRemoteUrl(url) {
 }
 
 async function getTextFromFetch(url) {
-  const fetch = require('isomorphic-fetch');
   const response = await fetch(url);
   const text = await response.text();
   return text;

@@ -1,8 +1,8 @@
 // import 'newrelic';
-const express = require('express');
-const cors = require('cors');
-const graphqlHTTP = require('express-graphql');
-const gotSchema = require('../schema');
+import express from 'express';
+import cors from 'cors';
+import graphqlHTTP from 'express-graphql';
+import gotSchema from '../schema';
 
 const app = express();
 app.use(

@@ -1,8 +1,6 @@
 /* @flow */
-
-const DataLoader = require('dataloader');
-
-const { getFromLocalUrl } = require('../api');
+import DataLoader from 'dataloader';
+import { getFromLocalUrl } from '../api';
 
 const localUrlLoader = new DataLoader(urls =>
   Promise.all(urls.map(getFromLocalUrl))

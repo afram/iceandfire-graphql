@@ -1,23 +1,23 @@
 /* @flow */
 
-const {
+import {
   GraphQLID,
   GraphQLInt,
   GraphQLList,
   GraphQLObjectType,
   GraphQLSchema,
-} = require('graphql');
+} from 'graphql';
 
-const {
+import {
   fromGlobalId,
   connectionFromArray,
   connectionArgs,
   connectionDefinitions,
-} = require('graphql-relay');
+} from 'graphql-relay';
 
-const { getObjectsByType, getObjectFromTypeAndId } = require('./apiHelper');
+import { getObjectsByType, getObjectFromTypeAndId } from './apiHelper';
 
-const { gotTypeToGraphQLType, nodeField } = require('./relayNode');
+import { gotTypeToGraphQLType, nodeField } from './relayNode';
 
 /**
  * Creates a root field to get an object of a given type.
@@ -71,7 +71,6 @@ This allows a client to fetch the first five objects by passing "5" as the
 argument to "first", then fetch the total count so it could display "5 of 83",
 for example.`,
       },
-      // $FlowIssue Computed propertes
       [gotType]: {
         type: new GraphQLList(graphqlType),
         resolve: conn => conn.edges.map(edge => edge.node),
@@ -102,7 +101,7 @@ full "{ edges { node } }" version should be used instead.`,
  */
 const rootType = new GraphQLObjectType({
   name: 'Root',
-  fields: () => ({
+  fields: {
     allBooks: rootConnection('Books', 'books'),
     book: rootFieldByID('bookID', 'books'),
     allCharacters: rootConnection('Characters', 'characters'),
@@ -110,7 +109,7 @@ const rootType = new GraphQLObjectType({
     allHouses: rootConnection('Houses', 'houses'),
     house: rootFieldByID('houseID', 'houses'),
     node: nodeField,
-  }),
+  },
 });
 
 export default new GraphQLSchema({ query: rootType });

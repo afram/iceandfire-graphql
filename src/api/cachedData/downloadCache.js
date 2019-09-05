@@ -1,5 +1,5 @@
-const omit = require('lodash.omit');
-const fetch = require('isomorphic-fetch');
+import omit from 'lodash.omit';
+import fetch from 'isomorphic-fetch';
 
 /**
  * The API prefix
