@@ -17,6 +17,7 @@ jobs:
       run: |
         yarn install
         yarn build
+        yarn prettier --config ./prettier.config.js --write src/api/cachedData/cache.js 
         yarn test
       env:
         CI: true
