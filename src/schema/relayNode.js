@@ -1,11 +1,13 @@
+/* eslint-disable import/no-cycle */
 /* @flow */
+
+import { nodeDefinitions, fromGlobalId } from 'graphql-relay';
+import type { GraphQLObjectType } from 'graphql';
+
 import { getObjectFromTypeAndId } from './apiHelper';
 
-import type { GraphQLObjectType } from 'graphql';
-import { nodeDefinitions, fromGlobalId } from 'graphql-relay';
-
 import BookType from './types/book';
-console.log(BookType)
+
 import CharacterType from './types/character';
 import HouseType from './types/house';
 
@@ -20,16 +22,18 @@ export function gotTypeToGraphQLType(gotType: string): GraphQLObjectType {
       return CharacterType;
     case 'houses':
       return HouseType;
+    default:
+      return null;
   }
 }
 
-var { nodeInterface, nodeField } = nodeDefinitions(
+const { nodeInterface, nodeField } = nodeDefinitions(
   globalId => {
-    var { type, id } = fromGlobalId(globalId);
+    const { type, id } = fromGlobalId(globalId);
     return getObjectFromTypeAndId(type, id);
   },
   obj => {
-    var parts = obj.url.split('/');
+    const parts = obj.url.split('/');
     return gotTypeToGraphQLType(parts[parts.length - 3]);
   }
 );

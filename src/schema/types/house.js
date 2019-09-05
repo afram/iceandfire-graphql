@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* @flow */
 /**
  * House Type
@@ -16,7 +17,7 @@ import CharacterType from './character';
 /**
  * The GraphQL type equivalent of the House resource
  */
-var HouseType = new GraphQLObjectType({
+const HouseType = new GraphQLObjectType({
   name: 'House',
   description: `A ruling dynasty.`,
   fields: () => ({
@@ -109,4 +110,5 @@ var HouseType = new GraphQLObjectType({
   }),
   interfaces: () => [nodeInterface],
 });
+
 export default HouseType;

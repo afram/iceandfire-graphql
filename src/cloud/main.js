@@ -11,7 +11,7 @@ app.use(
       console.log(origin);
       const whitelist = /\.now\.sh\//.test(origin) || /localhost/.test(origin);
       console.log('whitelist', whitelist);
-      callback(null)
+      callback(null);
       // callback(whitelist ? null : 'Bad Request', whitelist);
     },
   })
@@ -31,10 +31,10 @@ app.use(
 
 // Listen for incoming HTTP requests
 const listener = app.listen(app.get('port'), () => {
-  var host = listener.address().address;
+  let host = listener.address().address;
   if (host === '::') {
     host = 'localhost';
   }
-  var port = app.get('port');
-  console.log('Listening at http://%s%s', host, port === 80 ? '' : ':' + port);
+  const port = app.get('port');
+  console.log('Listening at http://%s%s', host, port === 80 ? '' : `:${port}`);
 });

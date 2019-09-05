@@ -5,11 +5,11 @@ import {
   connectionDefinitions,
 } from 'graphql-relay';
 
-import { getObjectFromUrl } from './apiHelper';
-
 import { GraphQLInt, GraphQLList } from 'graphql';
 
 import type { GraphQLOutputType, GraphQLFieldConfig } from 'graphql';
+
+import { getObjectFromUrl } from './apiHelper';
 
 /**
  * Constructs a GraphQL connection field config; it is assumed
@@ -21,8 +21,8 @@ export function connectionFromUrls(
   prop: string,
   type: GraphQLOutputType
 ): GraphQLFieldConfig {
-  var { connectionType } = connectionDefinitions({
-    name: name,
+  const { connectionType } = connectionDefinitions({
+    name,
     nodeType: type,
     resolveNode: edge => getObjectFromUrl(edge.node),
     connectionFields: () => ({
@@ -51,7 +51,7 @@ full "{ edges { node } }" version should be used instead.`,
     type: connectionType,
     args: connectionArgs,
     resolve: (obj, args) => {
-      var array = obj[prop] || [];
+      const array = obj[prop] || [];
       return {
         ...connectionFromArray(array, args),
         totalCount: array.length,
@@ -59,3 +59,5 @@ full "{ edges { node } }" version should be used instead.`,
     },
   };
 }
+
+export default { connectionFromUrls };

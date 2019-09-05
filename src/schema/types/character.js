@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* @flow */
 /**
  * Character Type
@@ -17,7 +18,7 @@ import HouseType from './house';
 /**
  * The GraphQL type equivalent of the Character resource
  */
-var CharacterType = new GraphQLObjectType({
+const CharacterType = new GraphQLObjectType({
   name: 'Character',
   description: `An individual person within the Game of Thrones universe.`,
   fields: () => ({

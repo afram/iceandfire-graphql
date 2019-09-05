@@ -25,8 +25,8 @@ const { gotTypeToGraphQLType, nodeField } = require('./relayNode');
  * or `idName`, the per-type ID used in GOT-API.
  */
 function rootFieldByID(idName, gotType) {
-  var getter = id => getObjectFromTypeAndId(gotType, id);
-  var argDefs = {};
+  const getter = id => getObjectFromTypeAndId(gotType, id);
+  const argDefs = {};
   argDefs.id = { type: GraphQLID };
   argDefs[idName] = { type: GraphQLID };
   return {
@@ -38,17 +38,17 @@ function rootFieldByID(idName, gotType) {
       }
 
       if (args.id !== undefined && args.id !== null) {
-        var globalId = fromGlobalId(args.id);
+        const globalId = fromGlobalId(args.id);
         if (
           globalId.id === null ||
           globalId.id === undefined ||
           globalId.id === ''
         ) {
-          throw new Error('No valid ID extracted from ' + args.id);
+          throw new Error(`No valid ID extracted from ${args.id}`);
         }
         return getter(globalId.id);
       }
-      throw new Error('must provide id or ' + idName);
+      throw new Error(`must provide id or ${idName}`);
     },
   };
 }
@@ -58,9 +58,9 @@ function rootFieldByID(idName, gotType) {
  * `gotType`; the connection will be named using `name`.
  */
 function rootConnection(name, gotType) {
-  var graphqlType = gotTypeToGraphQLType(gotType);
-  var { connectionType } = connectionDefinitions({
-    name: name,
+  const graphqlType = gotTypeToGraphQLType(gotType);
+  const { connectionType } = connectionDefinitions({
+    name,
     nodeType: graphqlType,
     connectionFields: () => ({
       totalCount: {
@@ -88,10 +88,10 @@ full "{ edges { node } }" version should be used instead.`,
     type: connectionType,
     args: connectionArgs,
     resolve: async (_, args) => {
-      var { objects, totalCount } = await getObjectsByType(gotType, args);
+      const { objects, totalCount } = await getObjectsByType(gotType, args);
       return {
         ...connectionFromArray(objects, args),
-        totalCount: totalCount,
+        totalCount,
       };
     },
   };
@@ -100,7 +100,7 @@ full "{ edges { node } }" version should be used instead.`,
 /**
  * The GraphQL type equivalent of the Root resource
  */
-var rootType = new GraphQLObjectType({
+const rootType = new GraphQLObjectType({
   name: 'Root',
   fields: () => ({
     allBooks: rootConnection('Books', 'books'),

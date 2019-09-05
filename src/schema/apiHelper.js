@@ -4,7 +4,7 @@ const DataLoader = require('dataloader');
 
 const { getFromLocalUrl } = require('../api');
 
-var localUrlLoader = new DataLoader(urls =>
+const localUrlLoader = new DataLoader(urls =>
   Promise.all(urls.map(getFromLocalUrl))
 );
 
@@ -12,6 +12,7 @@ var localUrlLoader = new DataLoader(urls =>
  * Objects returned from GOT API don't have an ID field, so add one.
  */
 function objectWithId(obj: Object): Object {
+  // eslint-disable-next-line prefer-destructuring
   obj.id = obj.url.split('/')[5];
   return obj;
 }
@@ -20,8 +21,8 @@ function objectWithId(obj: Object): Object {
  * Given an object URL, fetch it, append the ID to it, and return it.
  */
 export async function getObjectFromUrl(url: string): Promise<Object> {
-  var dataString = await localUrlLoader.load(url);
-  var data = JSON.parse(dataString);
+  const dataString = await localUrlLoader.load(url);
+  const data = JSON.parse(dataString);
   return objectWithId(data);
 }
 
@@ -33,9 +34,10 @@ export async function getObjectFromTypeAndId(
   id: string
 ): Promise<Object> {
   /* eslint-disable max-len */
-  return await getObjectFromUrl(
+  const response = await getObjectFromUrl(
     `http://anapioficeandfire.com/api/${type}/${id}/`
   );
+  return response;
 }
 
 /**
@@ -61,12 +63,13 @@ export async function getObjectsByType(
   type: string,
   args?: ?Object
 ): Promise<ObjectsByType> {
-  var objects = [];
-  var totalCount = 0;
-  var nextUrl = `http://anapioficeandfire.com/api/${type}/`;
+  let objects = [];
+  let totalCount = 0;
+  let nextUrl = `http://anapioficeandfire.com/api/${type}/`;
   while (nextUrl && !doneFetching(objects, args)) {
-    var pageData = await localUrlLoader.load(nextUrl);
-    var parsedPageData = JSON.parse(pageData);
+    // eslint-disable-next-line no-await-in-loop
+    const pageData = await localUrlLoader.load(nextUrl);
+    const parsedPageData = JSON.parse(pageData);
     totalCount = parsedPageData.count;
     objects = objects.concat(parsedPageData.results.map(objectWithId));
     nextUrl = parsedPageData.next;
