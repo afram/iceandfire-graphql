@@ -245,10 +245,10 @@ function githubUrlForType(type) {
 function fetchFromUrl(url) {
   return fetch(url)
     .then(fetched => {
-      return fetched.text();
+      return fetched.json();
     })
     .then(text => {
-      return JSON.parse(text);
+      return text;
     });
 }
 
@@ -259,7 +259,7 @@ function fetchFromUrl(url) {
 const types = ['books', 'characters', 'houses'];
 Promise.all(types.map(githubUrlForType).map(fetchFromUrl))
   .then(fixturesList => {
-    const fixtures = [...fixturesList];
+    const fixtures = [].concat.apply([], fixturesList);
     const objects = getObjectsFromFixtures(fixtures);
     populateReverseMaps(objects);
     const cache = getCacheFromObjects(objects);
