@@ -1,5 +1,5 @@
 {
-  "builds": [{ "src": "lib/cloud/main.js", "use": "@now/node" }],
+  "builds": [{ "src": "lib/cloud/main.js", "use": "@now/node-server" }],
   "routes": [
     {
       "headers": {

@@ -39,7 +39,7 @@
     "check": "flow check",
     "cover": "babel-node node_modules/.bin/isparta cover --root src --report html node_modules/.bin/_mocha -- $npm_package_options_mocha",
     "coveralls": "babel-node node_modules/.bin/isparta cover --root src --report lcovonly node_modules/.bin/_mocha -- $npm_package_options_mocha && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "now-build": "build",
+    "now-build": "yarn build",
     "build": "npm run download && npm run build-public && npm run build-cloud && npm run build-config",
     "download": "if [ ! -f src/api/cachedData/cache.js ]; then echo 'Downloading cache...' && node src/api/cachedData/downloadCache.js > src/api/cachedData/cache.js && echo 'Cached!'; fi;",
     "build-cloud": "babel src -d lib",
