@@ -1,30 +1,23 @@
 /* @flow */
 
-import {
+const {
   GraphQLID,
   GraphQLInt,
   GraphQLList,
   GraphQLObjectType,
   GraphQLSchema,
-} from 'graphql';
+} = require('graphql');
 
-import {
+const {
   fromGlobalId,
   connectionFromArray,
   connectionArgs,
   connectionDefinitions,
-} from 'graphql-relay';
+} = require('graphql-relay');
 
-import {
-  getObjectsByType,
-  getObjectFromTypeAndId
-} from './apiHelper';
+const { getObjectsByType, getObjectFromTypeAndId } = require('./apiHelper');
 
-import {
-  gotTypeToGraphQLType,
-  nodeField,
-} from './relayNode';
-
+const { gotTypeToGraphQLType, nodeField } = require('./relayNode');
 
 /**
  * Creates a root field to get an object of a given type.
@@ -32,7 +25,7 @@ import {
  * or `idName`, the per-type ID used in GOT-API.
  */
 function rootFieldByID(idName, gotType) {
-  var getter = (id) => getObjectFromTypeAndId(gotType, id);
+  var getter = id => getObjectFromTypeAndId(gotType, id);
   var argDefs = {};
   argDefs.id = { type: GraphQLID };
   argDefs[idName] = { type: GraphQLID };
@@ -46,15 +39,17 @@ function rootFieldByID(idName, gotType) {
 
       if (args.id !== undefined && args.id !== null) {
         var globalId = fromGlobalId(args.id);
-        if (globalId.id === null ||
-            globalId.id === undefined ||
-            globalId.id === '') {
+        if (
+          globalId.id === null ||
+          globalId.id === undefined ||
+          globalId.id === ''
+        ) {
           throw new Error('No valid ID extracted from ' + args.id);
         }
         return getter(globalId.id);
       }
       throw new Error('must provide id or ' + idName);
-    }
+    },
   };
 }
 
@@ -64,43 +59,41 @@ function rootFieldByID(idName, gotType) {
  */
 function rootConnection(name, gotType) {
   var graphqlType = gotTypeToGraphQLType(gotType);
-  var {connectionType} = connectionDefinitions({
+  var { connectionType } = connectionDefinitions({
     name: name,
     nodeType: graphqlType,
     connectionFields: () => ({
       totalCount: {
         type: GraphQLInt,
-        resolve: (conn) => conn.totalCount,
-        description:
-`A count of the total number of objects in this connection, ignoring pagination.
+        resolve: conn => conn.totalCount,
+        description: `A count of the total number of objects in this connection, ignoring pagination.
 This allows a client to fetch the first five objects by passing "5" as the
 argument to "first", then fetch the total count so it could display "5 of 83",
-for example.`
+for example.`,
       },
       // $FlowIssue Computed propertes
       [gotType]: {
         type: new GraphQLList(graphqlType),
-        resolve: (conn) => conn.edges.map((edge) => edge.node),
-        description:
-`A list of all of the objects returned in the connection. This is a convenience
+        resolve: conn => conn.edges.map(edge => edge.node),
+        description: `A list of all of the objects returned in the connection. This is a convenience
 field provided for quickly exploring the API; rather than querying for
 "{ edges { node } }" when no edge data is needed, this field can be be used
 instead. Note that when clients like Relay need to fetch the "cursor" field on
 the edge to enable efficient pagination, this shortcut cannot be used, and the
-full "{ edges { node } }" version should be used instead.`
-      }
+full "{ edges { node } }" version should be used instead.`,
+      },
     }),
   });
   return {
     type: connectionType,
     args: connectionArgs,
     resolve: async (_, args) => {
-      var {objects, totalCount} = await getObjectsByType(gotType, args);
+      var { objects, totalCount } = await getObjectsByType(gotType, args);
       return {
         ...connectionFromArray(objects, args),
-        totalCount: totalCount
+        totalCount: totalCount,
       };
-    }
+    },
   };
 }
 
@@ -116,8 +109,8 @@ var rootType = new GraphQLObjectType({
     character: rootFieldByID('characterID', 'characters'),
     allHouses: rootConnection('Houses', 'houses'),
     house: rootFieldByID('houseID', 'houses'),
-    node: nodeField
-  })
+    node: nodeField,
+  }),
 });
 
 export default new GraphQLSchema({ query: rootType });

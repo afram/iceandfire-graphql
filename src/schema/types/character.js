@@ -3,15 +3,9 @@
  * Character Type
  */
 
-import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLList
-} from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
 
-import {
-  globalIdField
-} from 'graphql-relay';
+import { globalIdField } from 'graphql-relay';
 
 import { nodeInterface } from '../relayNode';
 import { connectionFromUrls } from '../connections';
@@ -25,38 +19,31 @@ import HouseType from './house';
  */
 var CharacterType = new GraphQLObjectType({
   name: 'Character',
-  description:
-`An individual person within the Game of Thrones universe.`,
+  description: `An individual person within the Game of Thrones universe.`,
   fields: () => ({
     name: {
       type: GraphQLString,
-      description:
-`The name of this person.`
+      description: `The name of this person.`,
     },
     culture: {
       type: GraphQLString,
-      description:
-`The culture of this person.`
+      description: `The culture of this person.`,
     },
     titles: {
       type: new GraphQLList(GraphQLString),
-      description:
-`The titles this person holds.`
+      description: `The titles this person holds.`,
     },
     aliases: {
       type: new GraphQLList(GraphQLString),
-      description:
-`Other names this person is known by.`
+      description: `Other names this person is known by.`,
     },
     born: {
       type: GraphQLString,
-      description:
-`The birth year of the person.`
+      description: `The birth year of the person.`,
     },
     died: {
       type: GraphQLString,
-      description:
-`The year of this person's death.`
+      description: `The year of this person's death.`,
     },
     foundedHouseConnection: connectionFromUrls(
       'CharacterFoundedHouses',
@@ -70,30 +57,33 @@ var CharacterType = new GraphQLObjectType({
     ),
     father: {
       type: CharacterType,
-      resolve: (person) => {
-        if (person.father.indexOf('null') >= 0) { return null; }
+      resolve: person => {
+        if (person.father.indexOf('null') >= 0) {
+          return null;
+        }
         return getObjectFromUrl(person.father);
       },
-      description:
-        `This person's father.`
+      description: `This person's father.`,
     },
     mother: {
       type: CharacterType,
-      resolve: (person) => {
-        if (person.mother.indexOf('null') >= 0) { return null; }
+      resolve: person => {
+        if (person.mother.indexOf('null') >= 0) {
+          return null;
+        }
         return getObjectFromUrl(person.mother);
       },
-      description:
-        `This person's mother.`
+      description: `This person's mother.`,
     },
     spouse: {
       type: CharacterType,
-      resolve: (person) => {
-        if (person.spouse.indexOf('null') >= 0) { return null; }
+      resolve: person => {
+        if (person.spouse.indexOf('null') >= 0) {
+          return null;
+        }
         return getObjectFromUrl(person.spouse);
       },
-      description:
-        `This person's spouse.`
+      description: `This person's spouse.`,
     },
     childrenConnection: connectionFromUrls(
       'CharacterChildren',
@@ -105,11 +95,7 @@ var CharacterType = new GraphQLObjectType({
       'allegiances',
       HouseType
     ),
-    bookConnection: connectionFromUrls(
-      'CharacterBooks',
-      'books',
-      BookType
-    ),
+    bookConnection: connectionFromUrls('CharacterBooks', 'books', BookType),
     povBookConnection: connectionFromUrls(
       'CharacterPovBooks',
       'povBooks',
@@ -117,17 +103,15 @@ var CharacterType = new GraphQLObjectType({
     ),
     playedBy: {
       type: new GraphQLList(GraphQLString),
-      description:
-        `The actor this person is played by.`
+      description: `The actor this person is played by.`,
     },
     tvSeries: {
       type: new GraphQLList(GraphQLString),
-      description:
-        `The TV Series this person is in.`
+      description: `The TV Series this person is in.`,
     },
-    id: globalIdField('characters')
+    id: globalIdField('characters'),
   }),
-  interfaces: () => [nodeInterface]
+  interfaces: () => [nodeInterface],
 });
 
 export default CharacterType;

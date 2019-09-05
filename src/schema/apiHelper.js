@@ -1,13 +1,11 @@
 /* @flow */
 
-import DataLoader from 'dataloader';
+const DataLoader = require('dataloader');
 
-import {
-  getFromLocalUrl
-} from '../api';
+const { getFromLocalUrl } = require('../api');
 
-var localUrlLoader = new DataLoader(
-  urls => Promise.all(urls.map(getFromLocalUrl))
+var localUrlLoader = new DataLoader(urls =>
+  Promise.all(urls.map(getFromLocalUrl))
 );
 
 /**
@@ -35,7 +33,9 @@ export async function getObjectFromTypeAndId(
   id: string
 ): Promise<Object> {
   /* eslint-disable max-len */
-  return await getObjectFromUrl(`http://anapioficeandfire.com/api/${type}/${id}/`);
+  return await getObjectFromUrl(
+    `http://anapioficeandfire.com/api/${type}/${id}/`
+  );
 }
 
 /**
@@ -51,8 +51,8 @@ function doneFetching(objects: Array<Object>, args?: ?Object): boolean {
 
 type ObjectsByType = {
   objects: Array<Object>,
-  totalCount: number
-}
+  totalCount: number,
+};
 
 /**
  * Given a type, fetch all of the pages, and join the objects together
@@ -71,5 +71,5 @@ export async function getObjectsByType(
     objects = objects.concat(parsedPageData.results.map(objectWithId));
     nextUrl = parsedPageData.next;
   }
-  return {objects, totalCount};
+  return { objects, totalCount };
 }

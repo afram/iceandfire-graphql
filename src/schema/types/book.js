@@ -10,9 +10,7 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import {
-  globalIdField
-} from 'graphql-relay';
+import { globalIdField } from 'graphql-relay';
 
 import { nodeInterface } from '../relayNode';
 import { connectionFromUrls } from '../connections';
@@ -22,51 +20,42 @@ import CharacterType from './character';
 /**
  * The GraphQL type equivalent of the Book resource
  */
-var BookType = new GraphQLObjectType({
+export default new GraphQLObjectType({
   name: 'Book',
-  description:
-`A single book.`,
+  description: `A single book.`,
   fields: () => ({
     name: {
       type: GraphQLString,
-      description:
-`The title of this book.`
+      description: `The title of this book.`,
     },
     iSBN: {
       type: GraphQLString,
-      description:
-`The book ISBN.`
+      description: `The book ISBN.`,
     },
     authors: {
       type: new GraphQLList(GraphQLString),
-      resolve: (book) => book.authors,
-      description:
-`The name(s) of the author(s) of this book.`
+      resolve: book => book.authors,
+      description: `The name(s) of the author(s) of this book.`,
     },
     numberOfPages: {
       type: GraphQLInt,
-      description:
-        `Number of pages in the book.`
+      description: `Number of pages in the book.`,
     },
     publisher: {
       type: GraphQLString,
-      description:
-        `The publisher of the book.`
+      description: `The publisher of the book.`,
     },
     country: {
       type: GraphQLString,
-      description:
-        `The country of origin.`
+      description: `The country of origin.`,
     },
     mediaType: {
       type: GraphQLString,
-      description:
-        `The book binding material.`
+      description: `The book binding material.`,
     },
     releaseDate: {
       type: GraphQLString,
-      description:
-`The ISO 8601 date format of book release at original creator country.`
+      description: `The ISO 8601 date format of book release at original creator country.`,
     },
     characterConnection: connectionFromUrls(
       'BookCharacters',
@@ -78,9 +67,7 @@ var BookType = new GraphQLObjectType({
       'povCharacters',
       CharacterType
     ),
-    id: globalIdField('books')
+    id: globalIdField('books'),
   }),
-  interfaces: () => [nodeInterface]
+  interfaces: () => [nodeInterface],
 });
-
-export default BookType;
