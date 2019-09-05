@@ -38,7 +38,7 @@
     "deploy": "npm run build",
     "watch": "babel scripts/watch.js | node",
     "testonly": "jest lib -u",
-    "lint": "eslint src",
+    "lint": "eslint src --fix",
     "check": "flow check",
     "cover": "babel-node node_modules/.bin/isparta cover --root src --report html node_modules/.bin/_mocha -- $npm_package_options_mocha",
     "coveralls": "babel-node node_modules/.bin/isparta cover --root src --report lcovonly node_modules/.bin/_mocha -- $npm_package_options_mocha && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",

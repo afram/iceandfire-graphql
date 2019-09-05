@@ -259,6 +259,7 @@ function fetchFromUrl(url) {
 const types = ['books', 'characters', 'houses'];
 Promise.all(types.map(githubUrlForType).map(fetchFromUrl))
   .then(fixturesList => {
+    // eslint-disable-next-line prefer-spread
     const fixtures = [].concat.apply([], fixturesList);
     const objects = getObjectsFromFixtures(fixtures);
     populateReverseMaps(objects);
