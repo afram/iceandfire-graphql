@@ -1,5 +1,3 @@
-/*global Parse:false*/
-
 /**
  * Given a URL of an object in the Game of Thrones API, return the data
  * from the server.
@@ -9,12 +7,8 @@
  */
 export async function getFromRemoteUrl(url) {
   try {
-    var text = null;
-    if (Parse.Cloud.httpRequest !== undefined) {
-      text = await getTextFromParse(url);
-    } else {
-      text = await getTextFromFetch(url);
-    }
+    const text = await getTextFromFetch(url);
+
     console.log(`Hit the GOT API for ${url}.`);
     return text;
   } catch (err) {
@@ -23,14 +17,11 @@ export async function getFromRemoteUrl(url) {
   }
 }
 
-async function getTextFromParse(url) {
-  var response = await Parse.Cloud.httpRequest({url});
-  return response.text;
-}
-
 async function getTextFromFetch(url) {
-  var fetch = require('isomorphic-fetch');
-  var response = await fetch(url);
-  var text = await response.text();
+  const fetch = require('isomorphic-fetch');
+  const response = await fetch(url);
+  const text = await response.text();
   return text;
 }
+
+export default getFromRemoteUrl;

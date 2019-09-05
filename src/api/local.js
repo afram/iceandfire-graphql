@@ -6,7 +6,7 @@ import gotData from './cachedData/cache';
  * from our local cache.
  */
 export async function getFromLocalUrl(url: string): Promise<string> {
-  var text = gotData[url];
+  const text = gotData[url];
   if (!text) {
     throw new Error(`No entry in local cache for ${url}`);
   }
@@ -15,3 +15,5 @@ export async function getFromLocalUrl(url: string): Promise<string> {
   }
   return text;
 }
+
+export default getFromLocalUrl;
