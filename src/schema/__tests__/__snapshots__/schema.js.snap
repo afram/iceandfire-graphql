@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Schema Gets an error when global ID is invalid 1`] = `"No entry in local cache for http://anapioficeandfire.com/api/books/��Z�'/"`;

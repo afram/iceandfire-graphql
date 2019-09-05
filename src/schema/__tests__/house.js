@@ -1,31 +1,29 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { gameOfThrones } from './got';
 
-describe('House type', async () => {
-  it('Gets an object by GOT ID', async () => {
+describe('House type', () => {
+  test('Gets an object by GOT ID', async () => {
     const query = `{ house(houseID: 1) { name } }`;
     const result = await gameOfThrones(query);
-    expect(result.data.house.name).to.equal('House Algood');
+    expect(result.data.house.name).toBe('House Algood');
   });
 
-  it('Gets a different object by GOT ID', async () => {
+  test('Gets a different object by GOT ID', async () => {
     const query = `{ house(houseID: 2) { name } }`;
     const result = await gameOfThrones(query);
-    expect(result.data.house.name).to.equal('House Allyrion of Godsgrace');
+    expect(result.data.house.name).toBe('House Allyrion of Godsgrace');
   });
 
-  it('Gets an object by global ID', async () => {
+  test('Gets an object by global ID', async () => {
     const query = `{ house(houseID: 1) { id, name } }`;
     const result = await gameOfThrones(query);
     const nextQuery = `{ house(id: "${result.data.house.id}") { id, name } }`;
     const nextResult = await gameOfThrones(nextQuery);
-    expect(result.data.house.name).to.equal('House Algood');
-    expect(nextResult.data.house.name).to.equal('House Algood');
-    expect(result.data.house.id).to.equal(nextResult.data.house.id);
+    expect(result.data.house.name).toBe('House Algood');
+    expect(nextResult.data.house.name).toBe('House Algood');
+    expect(result.data.house.id).toBe(nextResult.data.house.id);
   });
 
-  it('Gets an object by global ID with node', async () => {
+  test('Gets an object by global ID with node', async () => {
     const query = `{ house(houseID: 1) { id, name } }`;
     const result = await gameOfThrones(query);
     const nextQuery = `{
@@ -37,12 +35,12 @@ describe('House type', async () => {
       }
     }`;
     const nextResult = await gameOfThrones(nextQuery);
-    expect(result.data.house.name).to.equal('House Algood');
-    expect(nextResult.data.node.name).to.equal('House Algood');
-    expect(result.data.house.id).to.equal(nextResult.data.node.id);
+    expect(result.data.house.name).toBe('House Algood');
+    expect(nextResult.data.node.name).toBe('House Algood');
+    expect(result.data.house.id).toBe(nextResult.data.node.id);
   });
 
-  it('Gets all properties', async () => {
+  test('Gets all properties', async () => {
     const query = `
 {
   house(houseID: 1) {
@@ -82,21 +80,21 @@ describe('House type', async () => {
       cadetBranchConnection: { edges: [] },
       memberConnection: { edges: [] },
     };
-    expect(result.data.house).to.deep.equal(expected);
+    expect(result.data.house).toEqual(expected);
   });
 
-  it('All objects query', async () => {
+  test('All objects query', async () => {
     const query = `{ allHouses { edges { cursor, node { name } } } }`;
     const result = await gameOfThrones(query);
-    expect(result.data.allHouses.edges.length).to.equal(444);
+    expect(result.data.allHouses.edges.length).toBe(444);
   });
 
-  it('Pagination query', async () => {
+  test('Pagination query', async () => {
     const query = `{
       allHouses(first: 2) { edges { cursor, node { name } } }
     }`;
     const result = await gameOfThrones(query);
-    expect(result.data.allHouses.edges.map(e => e.node.name)).to.deep.equal([
+    expect(result.data.allHouses.edges.map(e => e.node.name)).toEqual([
       'House Algood',
       'House Allyrion of Godsgrace',
     ]);
@@ -106,8 +104,9 @@ describe('House type', async () => {
       edges { cursor, node { name } } }
     }`;
     const nextResult = await gameOfThrones(nextQuery);
-    expect(nextResult.data.allHouses.edges.map(e => e.node.name)).to.deep.equal(
-      ['House Amber', 'House Ambrose']
-    );
+    expect(nextResult.data.allHouses.edges.map(e => e.node.name)).toEqual([
+      'House Amber',
+      'House Ambrose',
+    ]);
   });
 });

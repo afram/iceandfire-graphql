@@ -1,31 +1,29 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { gameOfThrones } from './got';
 
-describe('Book type', async () => {
-  it('Gets an object by GOT ID', async () => {
+describe('Book type', () => {
+  test('Gets an object by GOT ID', async () => {
     const query = `{ book(bookID: 1) { name } }`;
     const result = await gameOfThrones(query);
-    expect(result.data.book.name).to.equal('A Game of Thrones');
+    expect(result.data.book.name).toBe('A Game of Thrones');
   });
 
-  it('Gets a different object by GOT ID', async () => {
+  test('Gets a different object by GOT ID', async () => {
     const query = `{ book(bookID: 2) { name } }`;
     const result = await gameOfThrones(query);
-    expect(result.data.book.name).to.equal('A Clash of Kings');
+    expect(result.data.book.name).toBe('A Clash of Kings');
   });
 
-  it('Gets an object by global ID', async () => {
+  test('Gets an object by global ID', async () => {
     const query = `{ book(bookID: 1) { id, name } }`;
     const result = await gameOfThrones(query);
     const nextQuery = `{ book(id: "${result.data.book.id}") { id, name } }`;
     const nextResult = await gameOfThrones(nextQuery);
-    expect(result.data.book.name).to.equal('A Game of Thrones');
-    expect(nextResult.data.book.name).to.equal('A Game of Thrones');
-    expect(result.data.book.id).to.equal(nextResult.data.book.id);
+    expect(result.data.book.name).toBe('A Game of Thrones');
+    expect(nextResult.data.book.name).toBe('A Game of Thrones');
+    expect(result.data.book.id).toBe(nextResult.data.book.id);
   });
 
-  it('Gets an object by global ID with node', async () => {
+  test('Gets an object by global ID with node', async () => {
     const query = `{ book(bookID: 1) { id, name } }`;
     const result = await gameOfThrones(query);
     const nextQuery = `{
@@ -37,12 +35,12 @@ describe('Book type', async () => {
       }
     }`;
     const nextResult = await gameOfThrones(nextQuery);
-    expect(result.data.book.name).to.equal('A Game of Thrones');
-    expect(nextResult.data.node.name).to.equal('A Game of Thrones');
-    expect(result.data.book.id).to.equal(nextResult.data.node.id);
+    expect(result.data.book.name).toBe('A Game of Thrones');
+    expect(nextResult.data.node.name).toBe('A Game of Thrones');
+    expect(result.data.book.id).toBe(nextResult.data.node.id);
   });
 
-  it('Gets all properties', async () => {
+  test('Gets all properties', async () => {
     const query = `
 {
   book(bookID: 1) {
@@ -72,21 +70,21 @@ describe('Book type', async () => {
       characterConnection: { edges: [{ node: { name: 'Walder' } }] },
       povCharacterConnection: { edges: [{ node: { name: 'Arya Stark' } }] },
     };
-    expect(result.data.book).to.deep.equal(expected);
+    expect(result.data.book).toEqual(expected);
   });
 
-  it('All objects query', async () => {
+  test('All objects query', async () => {
     const query = `{ allBooks { edges { cursor, node { name } } } }`;
     const result = await gameOfThrones(query);
-    expect(result.data.allBooks.edges.length).to.equal(12);
+    expect(result.data.allBooks.edges.length).toBe(12);
   });
 
-  it('Pagination query', async () => {
+  test('Pagination query', async () => {
     const query = `{
       allBooks(first: 2) { edges { cursor, node { name } } }
     }`;
     const result = await gameOfThrones(query);
-    expect(result.data.allBooks.edges.map(e => e.node.name)).to.deep.equal([
+    expect(result.data.allBooks.edges.map(e => e.node.name)).toEqual([
       'A Game of Thrones',
       'A Clash of Kings',
     ]);
@@ -96,7 +94,7 @@ describe('Book type', async () => {
       edges { cursor, node { name } } }
     }`;
     const nextResult = await gameOfThrones(nextQuery);
-    expect(nextResult.data.allBooks.edges.map(e => e.node.name)).to.deep.equal([
+    expect(nextResult.data.allBooks.edges.map(e => e.node.name)).toEqual([
       'A Storm of Swords',
       'The Hedge Knight',
     ]);

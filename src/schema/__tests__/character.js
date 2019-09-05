@@ -1,31 +1,29 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { gameOfThrones } from './got';
 
-describe('Character type', async () => {
-  it('Gets an object by GOT ID', async () => {
+describe('Character type', () => {
+  test('Gets an object by GOT ID', async () => {
     const query = `{ character(characterID: 16) { name } }`;
     const result = await gameOfThrones(query);
-    expect(result.data.character.name).to.equal('Margaery Tyrell');
+    expect(result.data.character.name).toBe('Margaery Tyrell');
   });
 
-  it('Gets a different object by GOT ID', async () => {
+  test('Gets a different object by GOT ID', async () => {
     const query = `{ character(characterID: 2) { name } }`;
     const result = await gameOfThrones(query);
-    expect(result.data.character.name).to.equal('Walder');
+    expect(result.data.character.name).toBe('Walder');
   });
 
-  it('Gets an object by global ID', async () => {
+  test('Gets an object by global ID', async () => {
     const query = `{ character(characterID: 16) { id, name } }`;
     const result = await gameOfThrones(query);
     const nextQuery = `{ character(id: "${result.data.character.id}") { id, name } }`;
     const nextResult = await gameOfThrones(nextQuery);
-    expect(result.data.character.name).to.equal('Margaery Tyrell');
-    expect(nextResult.data.character.name).to.equal('Margaery Tyrell');
-    expect(result.data.character.id).to.equal(nextResult.data.character.id);
+    expect(result.data.character.name).toBe('Margaery Tyrell');
+    expect(nextResult.data.character.name).toBe('Margaery Tyrell');
+    expect(result.data.character.id).toBe(nextResult.data.character.id);
   });
 
-  it('Gets an object by global ID with node', async () => {
+  test('Gets an object by global ID with node', async () => {
     const query = `{ character(characterID: 16) { id, name } }`;
     const result = await gameOfThrones(query);
     const nextQuery = `{
@@ -37,12 +35,12 @@ describe('Character type', async () => {
       }
     }`;
     const nextResult = await gameOfThrones(nextQuery);
-    expect(result.data.character.name).to.equal('Margaery Tyrell');
-    expect(nextResult.data.node.name).to.equal('Margaery Tyrell');
-    expect(result.data.character.id).to.equal(nextResult.data.node.id);
+    expect(result.data.character.name).toBe('Margaery Tyrell');
+    expect(nextResult.data.node.name).toBe('Margaery Tyrell');
+    expect(result.data.character.id).toBe(nextResult.data.node.id);
   });
 
-  it('Gets all properties', async () => {
+  test('Gets all properties', async () => {
     const query = `
 {
   character(characterID: 16) {
@@ -83,23 +81,24 @@ describe('Character type', async () => {
       },
       povBookConnection: { edges: [] },
     };
-    expect(result.data.character).to.deep.equal(expected);
+    expect(result.data.character).toEqual(expected);
   });
 
-  it('All objects query', async () => {
+  test('All objects query', async () => {
     const query = `{ allCharacters { edges { cursor, node { name } } } }`;
     const result = await gameOfThrones(query);
-    expect(result.data.allCharacters.edges.length).to.equal(2138);
+    expect(result.data.allCharacters.edges.length).toBe(2138);
   });
 
-  it('Pagination query', async () => {
+  test('Pagination query', async () => {
     const query = `{
       allCharacters(first: 2) { edges { cursor, node { name } } }
     }`;
     const result = await gameOfThrones(query);
-    expect(result.data.allCharacters.edges.map(e => e.node.name)).to.deep.equal(
-      ['', 'Walder']
-    );
+    expect(result.data.allCharacters.edges.map(e => e.node.name)).toEqual([
+      '',
+      'Walder',
+    ]);
     const nextCursor = result.data.allCharacters.edges[1].cursor;
 
     const nextQuery = `{ allCharacters(first: 2, after:"${nextCursor}") {
@@ -108,22 +107,22 @@ describe('Character type', async () => {
     const nextResult = await gameOfThrones(nextQuery);
     expect(
       nextResult.data.allCharacters.edges.map(e => e.node.culture)
-    ).to.deep.equal(['', 'Braavosi']);
+    ).toEqual(['', 'Braavosi']);
   });
 
   describe('Edge cases', () => {
-    it('Returns null if no father is set', async () => {
+    test('Returns null if no father is set', async () => {
       const query = `{ character(characterID: 1) { name, father { name } } }`;
       const result = await gameOfThrones(query);
-      expect(result.data.character.name).to.equal('');
-      expect(result.data.character.father).to.equal(null);
+      expect(result.data.character.name).toBe('');
+      expect(result.data.character.father).toBeNull();
     });
 
-    it('Returns correctly if a father is set', async () => {
+    test('Returns correctly if a father is set', async () => {
       const query = `{ character(characterID: 39) { name, father { name } } }`;
       const result = await gameOfThrones(query);
-      expect(result.data.character.name).to.equal('Aegon II');
-      expect(result.data.character.father.name).to.equal('Viserys I');
+      expect(result.data.character.name).toBe('Aegon II');
+      expect(result.data.character.father.name).toBe('Viserys I');
     });
   });
 });

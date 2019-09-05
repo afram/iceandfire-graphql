@@ -8,4 +8,7 @@ export async function gameOfThrones(query) {
   }
   return result;
 }
+test('got', async () => {
+  expect(1).toBe(1);
+});
 export default gameOfThrones;
