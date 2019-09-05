@@ -20,7 +20,9 @@ describe('Local API Wrapper', () => {
       )
     );
     expect(firstCharacters.results.length).toBe(10);
-    expect(firstCharacters.results[0].aliases[0]).toBe('The Daughter of the Dusk');
+    expect(firstCharacters.results[0].aliases[0]).toBe(
+      'The Daughter of the Dusk'
+    );
     const secondCharacters = JSON.parse(
       await getFromLocalUrl(
         'http://anapioficeandfire.com/api/characters/?page=2'

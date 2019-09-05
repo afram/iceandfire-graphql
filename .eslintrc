@@ -1,7 +1,7 @@
 {
   "root": true,
   "extends": ["airbnb", "prettier"],
-  "plugins": ["react", "prettier", "react-hooks"],
+  "plugins": ["react", "prettier", "react-hooks", "jest"],
   "parser": "babel-eslint",
   "rules": {
     "arrow-parens": "off",
@@ -52,5 +52,8 @@
     "import/resolver": {
       "node": { "extensions": [".js"] }
     }
+  },
+  "env": {
+    "jest/globals": true
   }
 }
