@@ -1,11 +1,14 @@
-name: Node CI
+name: building
 
-on: [push]
+on: [pull_request]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+    # runs-on: ubuntu-latest
    
     steps:
     - uses: actions/checkout@v1
@@ -13,6 +16,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+
     - name: yarn install, build, and test
       run: |
         yarn install
