@@ -46,4 +46,3 @@ npm start
 
 A GraphiQL instance will be opened at http://localhost:PORT/ to
 explore the API.
-
