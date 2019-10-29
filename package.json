@@ -60,7 +60,7 @@
     "chai": "^3.0.0",
     "chai-subset": "^1.0.1",
     "coveralls": "^2.11.2",
-    "eslint": "^0.24.0",
+    "eslint": "^6.6.0",
     "eslint-plugin-react": "^3.2.2",
     "flow-bin": "^0.18.1",
     "isparta": "^3.0.3",
